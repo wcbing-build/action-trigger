@@ -1,0 +1,20 @@
+name: Scheduled Check and Trigger
+
+on:
+  schedule:
+    - cron: '0 3 * * *'  # 每天运行一次，可按需修改
+  workflow_dispatch: {}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run check script
+        env:
+          # 读取仓库 secret pat
+          GITHUB_PAT: ${{ secrets.pat }}
+        run: |
+          python3 check.py
